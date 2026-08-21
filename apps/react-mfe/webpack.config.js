@@ -1,8 +1,7 @@
 const { NxAppWebpackPlugin } = require('@nx/webpack/app-plugin');
 const { NxReactWebpackPlugin } = require('@nx/react/webpack-plugin');
 const { join } = require('path');
-// const { ModuleFederationPlugin } = require('webpack').container;
-const { ModuleFederationPlugin } = require('@module-federation/enhanced/webpack');
+const { ModuleFederationPlugin } = require('webpack').container;
 
 module.exports = {
   output: {
@@ -39,7 +38,7 @@ module.exports = {
       name: 'reactMfe',
       filename: 'remoteEntry.js',
       library: {
-        type: 'module',  // ESM вместо var
+        type: 'module',
       },
       exposes: {
         './ReactMFE': './src/app/app.tsx',

@@ -2,12 +2,9 @@ import { Component, ElementRef, ViewChild, ViewContainerRef, AfterViewInit, OnDe
 import { loadRemoteModule } from '@angular-architects/module-federation';
 import { RouterOutlet } from '@angular/router';
 
-import { NxWelcome } from './nx-welcome';
-
 @Component({
-  imports: [NxWelcome, RouterOutlet],
+  imports: [RouterOutlet],
   selector: 'app-root',
-  // standalone: false,
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -15,17 +12,10 @@ export class App implements AfterViewInit, OnDestroy {
   @ViewChild('widgetContainer', { read: ViewContainerRef }) container!: ViewContainerRef;
   @ViewChild('widgetContainerReact', { static: true }) containerReact!: ElementRef;
 
-  protected title = 'shell';
-
   private root: any;
 
-  constructor() {
-  }
-
   ngAfterViewInit() {
-    setTimeout(() => {
-      this.renderApps();
-    }, 100);
+    this.renderApps();
   }
 
   async renderApps() {
@@ -35,22 +25,17 @@ export class App implements AfterViewInit, OnDestroy {
       exposedModule: './NgMFE'
     }).then((m) => this.container.createComponent(m.App));
 
-    setTimeout(async () => {
-      const React = await import('react');
-      const ReactDOM = await import('react-dom/client');
+    const React = await import('react');
+    const ReactDOM = await import('react-dom/client');
 
-      const m = await loadRemoteModule({
-        type: 'module',
-        remoteEntry: 'http://localhost:4202/remoteEntry.js',
-        exposedModule: './ReactMFE'
-      });
+    const m = await loadRemoteModule({
+      type: 'module',
+      remoteEntry: 'http://localhost:4202/remoteEntry.js',
+      exposedModule: './ReactMFE'
+    });
 
-      console.log(m);
-
-      this.root = ReactDOM.createRoot(this.containerReact.nativeElement);
-      this.root.render(React.createElement(m.App));
-    }, 1000)
-
+    this.root = ReactDOM.createRoot(this.containerReact.nativeElement);
+    this.root.render(React.createElement(m.App));
   }
 
   ngOnDestroy() {
