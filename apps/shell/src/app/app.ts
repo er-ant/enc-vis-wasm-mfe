@@ -36,19 +36,21 @@ export class App implements AfterViewInit, OnDestroy {
     }).then((m) => this.container.createComponent(m.App));
 
 
-    // setTimeout(async () => {
-    //   const React = await import('react');
-    //   const ReactDOM = await import('react-dom/client');
+    setTimeout(async () => {
+      const React = await import('react');
+      const ReactDOM = await import('react-dom/client');
 
-    //   const m = await loadRemoteModule({
-    //     type: 'module',
-    //     remoteEntry: 'http://localhost:4202/remoteEntry.js',
-    //     exposedModule: './ReactMFE'
-    //   });
+      const m = await loadRemoteModule({
+        type: 'module',
+        remoteEntry: 'http://localhost:4202/remoteEntry.js',
+        exposedModule: './ReactMFE'
+      });
 
-    //   this.root = ReactDOM.createRoot(this.containerReact.nativeElement);
-    //   this.root.render(React.createElement(m.App));
-    // }, 3000)
+      console.log(m);
+
+      // this.root = ReactDOM.createRoot(this.containerReact.nativeElement);
+      // this.root.render(React.createElement(m.App));
+    }, 1000)
 
   }
 

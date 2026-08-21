@@ -1,0 +1,35 @@
+{
+  "name": "react-mfe",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/react-mfe/src",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project react-mfe --web",
+  "targets": {
+    "serve": {
+      "executor": "@nx/webpack:dev-server",
+      "options": {
+        "buildTarget": "react-mfe:build",
+        "port": 4202
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "react-mfe:build:production"
+        },
+        "development": {
+          "buildTarget": "react-mfe:build:development"
+        }
+      }
+    },
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "options": {
+        "outputPath": "dist/apps/react-mfe",
+        "webpackConfig": "apps/react-mfe/webpack.config.js",
+        "main": "apps/react-mfe/src/main.tsx",
+        "tsConfig": "apps/react-mfe/tsconfig.app.json",
+        "index": "apps/react-mfe/src/index.html"
+      }
+    }
+  }
+}
