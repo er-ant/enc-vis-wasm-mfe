@@ -35,7 +35,6 @@ export class App implements AfterViewInit, OnDestroy {
       exposedModule: './NgMFE'
     }).then((m) => this.container.createComponent(m.App));
 
-
     setTimeout(async () => {
       const React = await import('react');
       const ReactDOM = await import('react-dom/client');
@@ -48,8 +47,8 @@ export class App implements AfterViewInit, OnDestroy {
 
       console.log(m);
 
-      // this.root = ReactDOM.createRoot(this.containerReact.nativeElement);
-      // this.root.render(React.createElement(m.App));
+      this.root = ReactDOM.createRoot(this.containerReact.nativeElement);
+      this.root.render(React.createElement(m.App));
     }, 1000)
 
   }

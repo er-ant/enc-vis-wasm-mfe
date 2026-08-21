@@ -1,7 +1,8 @@
 const { NxAppWebpackPlugin } = require('@nx/webpack/app-plugin');
 const { NxReactWebpackPlugin } = require('@nx/react/webpack-plugin');
 const { join } = require('path');
-const { ModuleFederationPlugin } = require('webpack').container;
+// const { ModuleFederationPlugin } = require('webpack').container;
+const { ModuleFederationPlugin } = require('@module-federation/enhanced/webpack');
 
 module.exports = {
   output: {
@@ -19,6 +20,9 @@ module.exports = {
       'Access-Control-Allow-Origin': '*',
     },
   },
+  experiments: {
+    outputModule: true,
+  },
   plugins: [
     new NxAppWebpackPlugin({
       tsConfig: './tsconfig.app.json',
@@ -32,8 +36,11 @@ module.exports = {
       optimization: process.env['NODE_ENV'] === 'production',
     }),
     new ModuleFederationPlugin({
-      name: 'react_mfe',
+      name: 'reactMfe',
       filename: 'remoteEntry.js',
+      library: {
+        type: 'module',  // ESM вместо var
+      },
       exposes: {
         './ReactMFE': './src/app/app.tsx',
       },
