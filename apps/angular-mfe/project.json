@@ -1,9 +1,9 @@
 {
-  "name": "shell",
+  "name": "angular-mfe",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "apps/shell/src",
+  "sourceRoot": "apps/angular-mfe/src",
   "tags": [],
   "targets": {
     "build": {
@@ -12,23 +12,23 @@
         "{options.outputPath}"
       ],
       "options": {
-        "outputPath": "dist/apps/shell",
-        "index": "apps/shell/src/index.html",
-        "main": "apps/shell/src/main.ts",
-        "tsConfig": "apps/shell/tsconfig.app.json",
+        "outputPath": "dist/apps/angular-mfe",
+        "index": "apps/angular-mfe/src/index.html",
+        "main": "apps/angular-mfe/src/main.ts",
+        "tsConfig": "apps/angular-mfe/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/shell/public",
+            "input": "apps/angular-mfe/public",
             "output": "."
           }
         ],
         "styles": [
-          "apps/shell/src/styles.scss"
+          "apps/angular-mfe/src/styles.scss"
         ],
         "customWebpackConfig": {
-          "path": "apps/shell/webpack.config.js"
+          "path": "apps/angular-mfe/webpack.config.js"
         },
         "commonChunk": false
       },
@@ -48,7 +48,7 @@
           ],
           "outputHashing": "all",
           "customWebpackConfig": {
-            "path": "apps/shell/webpack.prod.config.js"
+            "path": "apps/angular-mfe/webpack.prod.config.js"
           }
         },
         "development": {
@@ -65,25 +65,25 @@
     "serve": {
       "continuous": true,
       "executor": "@nx/angular:dev-server",
+      "options": {
+        "port": 4201,
+        "publicHost": "http://localhost:4201"
+      },
       "configurations": {
         "production": {
-          "buildTarget": "shell:build:production"
+          "buildTarget": "angular-mfe:build:production"
         },
         "development": {
-          "buildTarget": "shell:build:development"
+          "buildTarget": "angular-mfe:build:development"
         }
       },
-      "defaultConfiguration": "development",
-      "options": {
-        "port": 4200,
-        "publicHost": "http://localhost:4200"
-      }
+      "defaultConfiguration": "development"
     },
     "extract-i18n": {
       "executor": "ngx-build-plus:extract-i18n",
       "options": {
-        "buildTarget": "shell:build",
-        "extraWebpackConfig": "apps/shell/webpack.config.js"
+        "buildTarget": "angular-mfe:build",
+        "extraWebpackConfig": "apps/angular-mfe/webpack.config.js"
       }
     },
     "lint": {
@@ -93,7 +93,7 @@
       "continuous": true,
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "shell:build",
+        "buildTarget": "angular-mfe:build",
         "spa": true
       }
     }
