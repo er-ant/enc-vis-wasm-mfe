@@ -1,6 +1,6 @@
-Shell
-<div #widgetContainerReact></div>
+<app-header (cardChoosen)="cardChoosenHandler($event)"></app-header>
 <main>
+  <app-react-wrapper [reactAppInfo]="REACT_APP_OBJ"></app-react-wrapper>
   <ng-container #widgetContainer></ng-container>
 </main>
 <router-outlet></router-outlet>

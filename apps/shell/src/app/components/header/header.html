@@ -1,0 +1,22 @@
+<header>
+  <a>Encryption Visualization</a>
+  <div class="layout-selection">
+    <div>
+      <span>Framework</span>
+      <select [formField]="cardConfigForm.framework">
+        @for (item of frameworks | keyvalue; track item.key) {
+          <option [value]="item.value">{{ item.key }}</option>
+        }
+      </select>
+    </div>
+    <div>
+      <span>Algorithm</span>
+      <select [formField]="cardConfigForm.encryption">
+        @for (item of encryptions | keyvalue; track item.key) {
+          <option [value]="item.value">{{ item.key }}</option>
+        }
+      </select>
+    </div>
+    <button type="button" (click)="addAlgorithm()" [disabled]="cardConfigForm().invalid()">Add</button>
+  </div>
+</header>

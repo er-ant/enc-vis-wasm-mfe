@@ -48,6 +48,9 @@
         "style": "scss",
         "linter": "none"
       }
+    },
+    "@nx/angular:component": {
+      "style": "scss"
     }
   },
   "plugins": [

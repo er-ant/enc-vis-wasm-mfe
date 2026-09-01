@@ -1,18 +1,33 @@
-import { Component, ElementRef, ViewChild, ViewContainerRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewContainerRef, AfterViewInit, OnDestroy, signal } from '@angular/core';
 import { loadRemoteModule } from '@angular-architects/module-federation';
 import { RouterOutlet } from '@angular/router';
 
+import { Header } from './components/header/header';
+import { ReactWrapper } from './components/react-wrapper/react-wrapper';
+
+import { Frameworks, Encryptions, IAddCardConfig } from './models';
+
+// interface IWidget {
+
+// }
+
 @Component({
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, Header, ReactWrapper],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App implements AfterViewInit, OnDestroy {
+export class App implements AfterViewInit {
   @ViewChild('widgetContainer', { read: ViewContainerRef }) container!: ViewContainerRef;
-  @ViewChild('widgetContainerReact', { static: true }) containerReact!: ElementRef;
 
-  private root: any;
+  microfrontends = signal<Array<any>>([]);
+
+  readonly REACT_APP_OBJ = {
+    remoteModuleConfig: {
+      remoteEntry: 'http://localhost:4202/remoteEntry.js',
+      exposedModule: './ReactMFE'
+    }
+  }
 
   ngAfterViewInit() {
     this.renderApps();
@@ -23,25 +38,10 @@ export class App implements AfterViewInit, OnDestroy {
       type: 'module',
       remoteEntry: 'http://localhost:4201/remoteEntry.js',
       exposedModule: './NgMFE'
-    }).then((m) => this.container.createComponent(m.App));
-
-    const React = await import('react');
-    const ReactDOM = await import('react-dom/client');
-
-    const m = await loadRemoteModule({
-      type: 'module',
-      remoteEntry: 'http://localhost:4202/remoteEntry.js',
-      exposedModule: './ReactMFE'
-    });
-
-    this.root = ReactDOM.createRoot(this.containerReact.nativeElement);
-    this.root.render(React.createElement(m.App));
+    }).then((m) => console.log(this.container.createComponent(m.App)));
   }
 
-  ngOnDestroy() {
-    if (this.root) {
-      this.root.unmount();
-    }
+  cardChoosenHandler($event: IAddCardConfig): void {
+    console.log($event);
   }
-
 }
