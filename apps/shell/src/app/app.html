@@ -1,6 +1,15 @@
-<app-header (cardChoosen)="cardChoosenHandler($event)"></app-header>
+<app-header (cardChoosen)="cardAddedHandler($event)"></app-header>
 <main>
-  <app-react-wrapper [reactAppInfo]="REACT_APP_OBJ"></app-react-wrapper>
-  <ng-container #widgetContainer></ng-container>
+  @for (microfrontend of microfrontends(); track $index) {
+    @switch (microfrontend.framework) {
+      @case ('Angular') {
+        <app-angular-wrapper [angularAppInfo]="MICROFRONTENDS_MODULE_INFO[microfrontend.framework]" (cardDestroy)="removeCardHandler(microfrontend.id)"></app-angular-wrapper>
+      }
+
+      @case ('React') {
+        <app-react-wrapper [reactAppInfo]="MICROFRONTENDS_MODULE_INFO[microfrontend.framework]" (cardDestroy)="removeCardHandler(microfrontend.id)"></app-react-wrapper>
+      }
+    }
+  }
 </main>
 <router-outlet></router-outlet>

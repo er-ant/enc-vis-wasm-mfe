@@ -1,9 +1,9 @@
-import { Component, OnDestroy, ElementRef, ViewChild, input, effect } from '@angular/core';
+import { Component, OnDestroy, ElementRef, ViewChild, input, output, effect } from '@angular/core';
 import { loadRemoteModule, LoadRemoteModuleEsmOptions  } from '@angular-architects/module-federation';
 
 import { Root } from 'react-dom/client';
 
-type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+import { PartialBy } from '../../models';
 
 interface IReactAppMetadata {
   remoteModuleConfig: PartialBy<LoadRemoteModuleEsmOptions, 'type'>;
@@ -21,6 +21,8 @@ export class ReactWrapper implements OnDestroy {
   @ViewChild('widgetContainerReact', { static: true }) containerReact!: ElementRef;
 
   reactAppInfo = input.required<IReactAppMetadata>();
+
+  cardDestroy = output<boolean>();
 
   private root!: Root;
 

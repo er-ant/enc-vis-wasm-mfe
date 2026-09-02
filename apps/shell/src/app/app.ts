@@ -1,47 +1,54 @@
-import { Component, ElementRef, ViewChild, ViewContainerRef, AfterViewInit, OnDestroy, signal } from '@angular/core';
-import { loadRemoteModule } from '@angular-architects/module-federation';
+import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { Header } from './components/header/header';
 import { ReactWrapper } from './components/react-wrapper/react-wrapper';
+import { AngularWrapper } from './components/angular-wrapper/angular-wrapper';
 
 import { Frameworks, Encryptions, IAddCardConfig } from './models';
 
-// interface IWidget {
-
-// }
+interface IMFEInfo {
+  id: string;
+  framework: Frameworks;
+  algorithm: Encryptions;
+}
 
 @Component({
-  imports: [RouterOutlet, Header, ReactWrapper],
+  imports: [RouterOutlet, Header, ReactWrapper, AngularWrapper],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App implements AfterViewInit {
-  @ViewChild('widgetContainer', { read: ViewContainerRef }) container!: ViewContainerRef;
+export class App {
 
-  microfrontends = signal<Array<any>>([]);
-
-  readonly REACT_APP_OBJ = {
-    remoteModuleConfig: {
-      remoteEntry: 'http://localhost:4202/remoteEntry.js',
-      exposedModule: './ReactMFE'
+  readonly MICROFRONTENDS_MODULE_INFO = {
+    Angular: {
+      remoteModuleConfig: {
+        remoteEntry: 'http://localhost:4201/remoteEntry.js',
+        exposedModule: './NgMFE'
+      }
+    },
+    React: {
+      remoteModuleConfig: {
+        remoteEntry: 'http://localhost:4202/remoteEntry.js',
+        exposedModule: './ReactMFE'
+      }
     }
+  };
+
+  microfrontends = signal<Array<IMFEInfo>>([]);
+
+  cardAddedHandler($event: IAddCardConfig): void {
+    const newMFE: IMFEInfo = {
+      id: crypto.randomUUID(),
+      framework: $event.framework,
+      algorithm: $event.encryption,
+    };
+
+    this.microfrontends.set([...this.microfrontends(), newMFE]);
   }
 
-  ngAfterViewInit() {
-    this.renderApps();
-  }
-
-  async renderApps() {
-    loadRemoteModule({
-      type: 'module',
-      remoteEntry: 'http://localhost:4201/remoteEntry.js',
-      exposedModule: './NgMFE'
-    }).then((m) => console.log(this.container.createComponent(m.App)));
-  }
-
-  cardChoosenHandler($event: IAddCardConfig): void {
-    console.log($event);
+  removeCardHandler(id: string): void {
+    this.microfrontends.update((MFEs: Array<IMFEInfo>) => MFEs.filter((MFE: IMFEInfo) => MFE.id !== id));
   }
 }

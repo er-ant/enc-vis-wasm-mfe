@@ -18,8 +18,8 @@ export class Header {
   encryptions = Encryptions;
 
   cardConfigModel = signal<IAddCardConfig>({
-    framework: '',
-    encryption: '',
+    framework: Frameworks.None,
+    encryption: Encryptions.None,
   });
 
   cardConfigForm = form(this.cardConfigModel, (schemaPath) => {
@@ -27,15 +27,12 @@ export class Header {
     required(schemaPath.encryption);
   });
 
-  constructor() {
-  }
-
   addAlgorithm(): void {
     this.cardChoosen.emit(this.cardConfigModel());
 
     this.cardConfigModel.set({
-      framework: '',
-      encryption: '',
+      framework: Frameworks.None,
+      encryption: Encryptions.None,
     });
   }
 }
