@@ -8,7 +8,7 @@ interface IAngularAppMetadata {
 }
 
 @Component({
-  selector: 'app-angular-wrapper',
+  selector: 'enc-vis-shell-angular-wrapper',
   imports: [],
   templateUrl: './angular-wrapper.html',
   styleUrl: './angular-wrapper.scss',

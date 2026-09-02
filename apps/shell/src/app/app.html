@@ -1,13 +1,13 @@
-<app-header (cardChoosen)="cardAddedHandler($event)"></app-header>
+<enc-vis-shell-header (cardChoosen)="cardAddedHandler($event)"></enc-vis-shell-header>
 <main>
   @for (microfrontend of microfrontends(); track $index) {
     @switch (microfrontend.framework) {
       @case ('Angular') {
-        <app-angular-wrapper [angularAppInfo]="MICROFRONTENDS_MODULE_INFO[microfrontend.framework]" (cardDestroy)="removeCardHandler(microfrontend.id)"></app-angular-wrapper>
+        <enc-vis-shell-angular-wrapper [angularAppInfo]="MICROFRONTENDS_MODULE_INFO[microfrontend.framework]" (cardDestroy)="removeCardHandler(microfrontend.id)"></enc-vis-shell-angular-wrapper>
       }
 
       @case ('React') {
-        <app-react-wrapper [reactAppInfo]="MICROFRONTENDS_MODULE_INFO[microfrontend.framework]" (cardDestroy)="removeCardHandler(microfrontend.id)"></app-react-wrapper>
+        <enc-vis-shell-react-wrapper [reactAppInfo]="MICROFRONTENDS_MODULE_INFO[microfrontend.framework]" (cardDestroy)="removeCardHandler(microfrontend.id)"></enc-vis-shell-react-wrapper>
       }
     }
   }

@@ -15,7 +15,7 @@ interface IMFEInfo {
 
 @Component({
   imports: [RouterOutlet, Header, ReactWrapper, AngularWrapper],
-  selector: 'app-root',
+  selector: 'enc-vis-shell-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

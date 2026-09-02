@@ -2,7 +2,7 @@
   "name": "shell",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "app",
+  "prefix": "enc-vis-shell",
   "sourceRoot": "apps/shell/src",
   "tags": [],
   "targets": {

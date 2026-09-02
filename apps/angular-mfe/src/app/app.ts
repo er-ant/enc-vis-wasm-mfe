@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   imports: [RouterModule],
-  selector: 'app-root',
+  selector: 'enc-vis-ng-mfe-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

@@ -11,7 +11,7 @@ interface IReactAppMetadata {
 }
 
 @Component({
-  selector: 'app-react-wrapper',
+  selector: 'enc-vis-shell-react-wrapper',
   imports: [],
   templateUrl: './react-wrapper.html',
   styleUrl: './react-wrapper.scss',

@@ -2,7 +2,7 @@
   "name": "angular-mfe",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "app",
+  "prefix": "enc-vis-ng-mfe",
   "sourceRoot": "apps/angular-mfe/src",
   "tags": [],
   "targets": {

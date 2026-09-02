@@ -6,7 +6,7 @@ import { form, FormField, required } from '@angular/forms/signals';
 import { Frameworks, Encryptions, IAddCardConfig } from '../../models';
 
 @Component({
-  selector: 'app-header',
+  selector: 'enc-vis-shell-header',
   imports: [KeyValuePipe, FormsModule, FormField],
   templateUrl: './header.html',
   styleUrl: './header.scss',
