@@ -3,11 +3,15 @@
   @for (microfrontend of microfrontends(); track $index) {
     @switch (microfrontend.framework) {
       @case ('Angular') {
-        <enc-vis-shell-angular-wrapper [angularAppInfo]="MICROFRONTENDS_MODULE_INFO[microfrontend.framework]" (cardDestroy)="removeCardHandler(microfrontend.id)"></enc-vis-shell-angular-wrapper>
+        <enc-vis-shell-angular-wrapper [angularAppInfo]="MICROFRONTENDS_MODULE_INFO[microfrontend.framework]" [algorithm]="microfrontend.algorithm"
+          (cardDestroy)="removeCardHandler(microfrontend.id)">
+        </enc-vis-shell-angular-wrapper>
       }
 
       @case ('React') {
-        <enc-vis-shell-react-wrapper [reactAppInfo]="MICROFRONTENDS_MODULE_INFO[microfrontend.framework]" (cardDestroy)="removeCardHandler(microfrontend.id)"></enc-vis-shell-react-wrapper>
+        <enc-vis-shell-react-wrapper [reactAppInfo]="MICROFRONTENDS_MODULE_INFO[microfrontend.framework]" [algorithm]="microfrontend.algorithm"
+          (cardDestroy)="removeCardHandler(microfrontend.id)">
+        </enc-vis-shell-react-wrapper>
       }
     }
   }

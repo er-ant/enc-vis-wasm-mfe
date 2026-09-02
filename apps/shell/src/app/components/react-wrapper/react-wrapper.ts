@@ -3,7 +3,7 @@ import { loadRemoteModule, LoadRemoteModuleEsmOptions  } from '@angular-architec
 
 import { Root } from 'react-dom/client';
 
-import { PartialBy } from '../../models';
+import { PartialBy, Encryptions } from '../../models';
 
 interface IReactAppMetadata {
   remoteModuleConfig: PartialBy<LoadRemoteModuleEsmOptions, 'type'>;
@@ -21,6 +21,7 @@ export class ReactWrapper implements AfterViewInit, OnDestroy {
   private elementRef = inject(ElementRef);
 
   reactAppInfo = input.required<IReactAppMetadata>();
+  algorithm = input.required<Encryptions>();
 
   cardDestroy = output<boolean>();
 
@@ -54,9 +55,15 @@ export class ReactWrapper implements AfterViewInit, OnDestroy {
         })
       })
       .then((m: any) => {
+        const props = {
+          algorithm: this.algorithm(),
+          onClose: (result: boolean) => result && this.cardDestroy.emit(true),
+          ...reactAppMetadata.props
+        };
         appModule = m;
         this.root = ReactDOM.createRoot(this.elementRef.nativeElement);
-        this.root.render(React.createElement(appModule.App, reactAppMetadata.props));
+
+        this.root.render(React.createElement(appModule.App, props));
       });
   }
 }

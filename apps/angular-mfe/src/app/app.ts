@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { RouterModule } from '@angular/router';
+
+import { Encryptions } from '../../../shell/src/app/models';
 
 @Component({
   imports: [RouterModule],
@@ -8,4 +10,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './app.scss',
 })
 export class App {
+  algorithm = input.required<Encryptions>();
+
+  onClose = output<boolean>();
 }

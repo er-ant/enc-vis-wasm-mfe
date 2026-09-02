@@ -1,7 +1,8 @@
-import { Component, AfterViewInit, ViewChild, ViewContainerRef, input, output } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ViewContainerRef, input, output, ComponentRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { loadRemoteModule, LoadRemoteModuleEsmOptions } from '@angular-architects/module-federation';
 
-import { PartialBy } from '../../models';
+import { PartialBy, Encryptions } from '../../models';
 
 interface IAngularAppMetadata {
   remoteModuleConfig: PartialBy<LoadRemoteModuleEsmOptions, 'type'>;
@@ -18,6 +19,7 @@ export class AngularWrapper implements AfterViewInit {
   @ViewChild('mfeContainer', { read: ViewContainerRef }) mfeContainer!: ViewContainerRef;
 
   angularAppInfo = input.required<IAngularAppMetadata>();
+  algorithm = input.required<Encryptions>();
 
   cardDestroy = output<boolean>();
 
@@ -30,7 +32,16 @@ export class AngularWrapper implements AfterViewInit {
       type: 'module',
       ...angularAppInfo.remoteModuleConfig
     }).then((m: any) => {
-      const component = this.mfeContainer.createComponent(m.App);
+      const componentRef: ComponentRef<any> = this.mfeContainer.createComponent(m.App);
+      componentRef.setInput('algorithm', this.algorithm());
+
+      componentRef
+        .instance
+        .onClose
+        .pipe(takeUntilDestroyed())
+        .subscribe(
+          (result: boolean) => result && this.cardDestroy.emit(true)
+        );
     });
   }
 }
