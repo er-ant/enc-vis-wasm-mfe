@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, ViewChild, ViewContainerRef, input, output } from '@angular/core';
-import { loadRemoteModule, LoadRemoteModuleEsmOptions  } from '@angular-architects/module-federation';
+import { loadRemoteModule, LoadRemoteModuleEsmOptions } from '@angular-architects/module-federation';
 
 import { PartialBy } from '../../models';
 
@@ -15,7 +15,7 @@ interface IAngularAppMetadata {
 })
 export class AngularWrapper implements AfterViewInit {
 
-  @ViewChild('widgetContainer', { read: ViewContainerRef }) container!: ViewContainerRef;
+  @ViewChild('mfeContainer', { read: ViewContainerRef }) mfeContainer!: ViewContainerRef;
 
   angularAppInfo = input.required<IAngularAppMetadata>();
 
@@ -30,7 +30,7 @@ export class AngularWrapper implements AfterViewInit {
       type: 'module',
       ...angularAppInfo.remoteModuleConfig
     }).then((m: any) => {
-      const component = this.container.createComponent(m.App);
+      const component = this.mfeContainer.createComponent(m.App);
     });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ElementRef, ViewChild, input, output, effect } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ElementRef, input, output, effect, inject } from '@angular/core';
 import { loadRemoteModule, LoadRemoteModuleEsmOptions  } from '@angular-architects/module-federation';
 
 import { Root } from 'react-dom/client';
@@ -16,9 +16,9 @@ interface IReactAppMetadata {
   templateUrl: './react-wrapper.html',
   styleUrl: './react-wrapper.scss',
 })
-export class ReactWrapper implements OnDestroy {
+export class ReactWrapper implements AfterViewInit, OnDestroy {
 
-  @ViewChild('widgetContainerReact', { static: true }) containerReact!: ElementRef;
+  private elementRef = inject(ElementRef);
 
   reactAppInfo = input.required<IReactAppMetadata>();
 
@@ -26,10 +26,14 @@ export class ReactWrapper implements OnDestroy {
 
   private root!: Root;
 
-  constructor() {
-    effect(() => {
-      this.renderReactApp(this.reactAppInfo());
-    });
+  ngAfterViewInit(): void {
+    this.renderReactApp(this.reactAppInfo());
+  }
+
+  ngOnDestroy(): void {
+    if (this.root) {
+      this.root.unmount();
+    }
   }
 
   renderReactApp(reactAppMetadata: IReactAppMetadata): void {
@@ -51,14 +55,8 @@ export class ReactWrapper implements OnDestroy {
       })
       .then((m: any) => {
         appModule = m;
-        this.root = ReactDOM.createRoot(this.containerReact.nativeElement);
+        this.root = ReactDOM.createRoot(this.elementRef.nativeElement);
         this.root.render(React.createElement(appModule.App, reactAppMetadata.props));
       });
-  }
-
-  ngOnDestroy() {
-    if (this.root) {
-      this.root.unmount();
-    }
   }
 }
