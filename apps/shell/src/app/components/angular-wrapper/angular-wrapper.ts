@@ -1,5 +1,4 @@
 import { Component, AfterViewInit, ViewChild, ViewContainerRef, input, output, ComponentRef } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { loadRemoteModule, LoadRemoteModuleEsmOptions } from '@angular-architects/module-federation';
 
 import { PartialBy, Encryptions } from '../../models';
@@ -38,7 +37,6 @@ export class AngularWrapper implements AfterViewInit {
       componentRef
         .instance
         .onClose
-        .pipe(takeUntilDestroyed())
         .subscribe(
           (result: boolean) => result && this.cardDestroy.emit(true)
         );
