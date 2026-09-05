@@ -1,6 +1,6 @@
 <enc-vis-shell-header (cardChoosen)="cardAddedHandler($event)"></enc-vis-shell-header>
 <main>
-  @for (microfrontend of microfrontends(); track $index) {
+  @for (microfrontend of microfrontends(); track microfrontend.id) {
     @switch (microfrontend.framework) {
       @case ('Angular') {
         <enc-vis-shell-angular-wrapper [angularAppInfo]="MICROFRONTENDS_MODULE_INFO[microfrontend.framework]" [algorithm]="microfrontend.algorithm"
