@@ -1,1 +1,26 @@
-<p>cesar works!</p>
+<div>
+  <p>cesar works!</p>
+  <input placeholder="Input text"/>
+  @switch (algorithm()) {
+    @case (encryptions.Cesar) {
+      <input placeholder="Shift" type="number"/>
+    }
+    @case (encryptions.CesarKey) {
+      <input placeholder="Input key"/>
+    }
+  }
+  <input placeholder="Result" disabled/>
+  <button type="submit">Encode</button>
+</div>
+<table>
+  <thead>
+    <th>Step</th>
+    <th>Text</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Step 1</td>
+      <td>Text</td>
+    </tr>
+  </tbody>
+</table>

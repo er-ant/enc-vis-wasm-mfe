@@ -1,8 +1,8 @@
-Angular-MFE
+Angular-MFE - {{ algorithm() }}
 @switch (algorithm()) {
   @case (encryptions.Cesar)
   @case (encryptions.CesarKey) {
-    <enc-vis-ng-mfe-cesar></enc-vis-ng-mfe-cesar>
+    <enc-vis-ng-mfe-cesar [algorithm]="algorithm()"></enc-vis-ng-mfe-cesar>
   }
 
   @case (encryptions.Vigenere) {
