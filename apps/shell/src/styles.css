@@ -4,7 +4,9 @@
 
 html,
 body,
-enc-vis-shell-root {
+enc-vis-shell-root,
+enc-vis-ng-mfe-root,
+enc-vis-react-mfe-root {
   display: block;
   height: 100%;
   width: 100%;
