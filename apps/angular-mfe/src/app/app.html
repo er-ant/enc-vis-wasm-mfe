@@ -1,2 +1,13 @@
-Angular-MFE {{ algorithm() }}
+Angular-MFE
+@switch (algorithm()) {
+  @case (encryptions.Cesar)
+  @case (encryptions.CesarKey) {
+    <enc-vis-ng-mfe-cesar></enc-vis-ng-mfe-cesar>
+  }
+
+  @case (encryptions.Vigenere) {
+    <enc-vis-ng-mfe-vigenere></enc-vis-ng-mfe-vigenere>
+  }
+}
+<button type="button" (click)="onClose.emit(true)">X</button>
 <router-outlet></router-outlet>
