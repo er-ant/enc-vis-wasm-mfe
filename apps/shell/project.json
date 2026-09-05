@@ -25,7 +25,7 @@
           }
         ],
         "styles": [
-          "apps/shell/src/styles.scss"
+          "apps/shell/src/styles.css"
         ],
         "customWebpackConfig": {
           "path": "apps/shell/webpack.config.js"

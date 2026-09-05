@@ -12,11 +12,13 @@ export function Vigenere() {
       </div>
       <table>
         <thead>
-          <th>Step</th>
-          <th>Letter</th>
-          <th>Key's Letter</th>
-          <th>Enc Letter</th>
-          <th>Enc Text</th>
+          <tr>
+            <th>Step</th>
+            <th>Letter</th>
+            <th>Key's Letter</th>
+            <th>Enc Letter</th>
+            <th>Enc Text</th>
+          </tr>
         </thead>
         <tbody>
           <tr>

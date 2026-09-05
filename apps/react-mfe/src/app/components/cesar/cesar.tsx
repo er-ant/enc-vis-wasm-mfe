@@ -20,18 +20,22 @@ export function Cesar({ algorithm }: ICesarProps) {
         <input placeholder="Result" disabled/>
         <button type="submit">Encode</button>
       </div>
-      <table>
-        <thead>
-          <th>Step</th>
-          <th>Text</th>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Step 1</td>
-            <td>Text</td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="overflow-x-auto">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Step</th>
+              <th>Text</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Step 1</td>
+              <td>Text</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

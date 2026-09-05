@@ -13,9 +13,13 @@
     "@angular/forms": "21.2.0",
     "@angular/platform-browser": "21.2.0",
     "@angular/router": "21.2.0",
+    "@tailwindcss/postcss": "^4.3.3",
+    "daisyui": "^5.7.28",
+    "postcss": "^8.5.28",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "rxjs": "~7.8.0"
+    "rxjs": "~7.8.0",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@angular-architects/module-federation": "21.2.0",
