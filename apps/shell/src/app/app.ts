@@ -5,7 +5,8 @@ import { Header } from './components/header/header';
 import { ReactWrapper } from './components/react-wrapper/react-wrapper';
 import { AngularWrapper } from './components/angular-wrapper/angular-wrapper';
 
-import { Frameworks, Encryptions, IAddCardConfig } from './models';
+import { IAddCardConfig } from './models';
+import { Frameworks, Encryptions } from '@enc-vis-wasm-mfe/shared-types';
 
 interface IMFEInfo {
   id: string;

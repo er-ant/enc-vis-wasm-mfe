@@ -1,7 +1,8 @@
 import { Component, AfterViewInit, ViewChild, ViewContainerRef, input, output, ComponentRef } from '@angular/core';
 import { loadRemoteModule, LoadRemoteModuleEsmOptions } from '@angular-architects/module-federation';
 
-import { PartialBy, Encryptions } from '../../models';
+import { PartialBy } from '../../models';
+import { Encryptions } from '@enc-vis-wasm-mfe/shared-types';
 
 interface IAngularAppMetadata {
   remoteModuleConfig: PartialBy<LoadRemoteModuleEsmOptions, 'type'>;

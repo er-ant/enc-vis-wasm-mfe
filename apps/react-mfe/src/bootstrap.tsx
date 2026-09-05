@@ -1,8 +1,9 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 
+import { Encryptions } from '@enc-vis-wasm-mfe/shared-types';
+
 import App from './app/app';
-import { Encryptions } from '../../shell/src/app/models';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

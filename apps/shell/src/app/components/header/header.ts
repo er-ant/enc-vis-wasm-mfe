@@ -3,7 +3,8 @@ import { KeyValuePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { form, FormField, required } from '@angular/forms/signals';
 
-import { Frameworks, Encryptions, IAddCardConfig } from '../../models';
+import { IAddCardConfig } from '../../models';
+import { Frameworks, Encryptions } from '@enc-vis-wasm-mfe/shared-types';
 
 @Component({
   selector: 'enc-vis-shell-header',

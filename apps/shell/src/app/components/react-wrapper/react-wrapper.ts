@@ -3,7 +3,8 @@ import { loadRemoteModule, LoadRemoteModuleEsmOptions  } from '@angular-architec
 
 import { Root } from 'react-dom/client';
 
-import { PartialBy, Encryptions } from '../../models';
+import { PartialBy } from '../../models';
+import { Encryptions } from '@enc-vis-wasm-mfe/shared-types';
 
 interface IReactAppMetadata {
   remoteModuleConfig: PartialBy<LoadRemoteModuleEsmOptions, 'type'>;
