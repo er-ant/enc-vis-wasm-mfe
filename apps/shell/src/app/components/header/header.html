@@ -1,22 +1,22 @@
-<header>
-  <a>Encryption Visualization</a>
-  <div class="layout-selection">
-    <div>
+<header class="w-full h-10 p-2 flex items-center shadow-md bg-primary/20">
+  <a class="font-bold">Enc Vis</a>
+  <div class="m-auto inline-flex gap-4">
+    <div class="flex flex-row gap-2">
       <span>Framework</span>
-      <select class="select" [formField]="cardConfigForm.framework">
+      <select class="select select-bordered w-25 h-full truncate" [formField]="cardConfigForm.framework">
         @for (item of frameworks | keyvalue; track item.key) {
           <option [value]="item.value">{{ item.key }}</option>
         }
       </select>
     </div>
-    <div>
+    <div class="flex flex-row gap-2">
       <span>Algorithm</span>
-      <select class="select" [formField]="cardConfigForm.encryption">
+      <select class="select select-bordered w-25 h-full truncate" [formField]="cardConfigForm.encryption">
         @for (item of encryptions | keyvalue; track item.key) {
           <option [value]="item.value">{{ item.key }}</option>
         }
       </select>
     </div>
-    <button type="button" (click)="addAlgorithm()" [disabled]="cardConfigForm().invalid()">Add</button>
+    <button class="btn btn-primary h-full" type="button" (click)="addAlgorithm()" [disabled]="cardConfigForm().invalid()">Add</button>
   </div>
 </header>
