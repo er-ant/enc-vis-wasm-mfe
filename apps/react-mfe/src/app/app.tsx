@@ -12,16 +12,24 @@ interface IAppProps {
 
 export function App({ algorithm, onClose }: IAppProps) {
   return (
-    <div>
-      React MFE {algorithm}
+    <div className="w-full h-full">
       {algorithm === Encryptions.Cesar || algorithm === Encryptions.CesarKey ? (
-        <Cesar algorithm={algorithm}/>
+        <Cesar algorithm={algorithm}>
+          <div className="flex justify-between">
+            React MFE {algorithm}
+            <button className="cursor-pointer" type="button" onClick={() => onClose(true)}>✖</button>
+          </div>
+        </Cesar>
       ) : algorithm === Encryptions.Vigenere ? (
-        <Vigenere />
+        <Vigenere>
+          <div className="flex justify-between">
+            React MFE {algorithm}
+            <button className="cursor-pointer" type="button" onClick={() => onClose(true)}>✖</button>
+          </div>
+        </Vigenere>
       ) : (
         'No such widget'
       )}
-      <button type="button" onClick={() => onClose(true)}>X</button>
     </div>
   );
 }

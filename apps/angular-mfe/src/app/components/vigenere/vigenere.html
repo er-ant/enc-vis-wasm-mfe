@@ -1,27 +1,29 @@
-<div>
-  <p>vigenere works!</p>
-  <input placeholder="Input text"/>
-  <input placeholder="Input key"/>
-  <input placeholder="Result" disabled/>
-  <button type="submit">Encode</button>
+<div class="flex-initial self-start flex flex-col bg-base-100 shadow-sm p-2 gap-3">
+  <ng-content></ng-content>
+  <input class="input" placeholder="Input text"/>
+  <input class="input" placeholder="Input key"/>
+  <input class="input" placeholder="Result" disabled/>
+  <button class="btn btn-primary" type="submit">Encode</button>
 </div>
-<table>
-  <thead>
-    <tr>
-      <th>Step</th>
-      <th>Letter</th>
-      <th>Key's Letter</th>
-      <th>Enc Letter</th>
-      <th>Enc Text</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Step 1</td>
-      <td>T</td>
-      <td>T</td>
-      <td>Q</td>
-      <td>Text</td>
-    </tr>
-  </tbody>
-</table>
+<div class="flex-1 overflow-y-auto">
+  <table class="table table-xs bg-base-100 shadow-sm">
+    <thead>
+      <tr>
+        <th>Step</th>
+        <th>Letter</th>
+        <th>Key's Letter</th>
+        <th>Enc Letter</th>
+        <th>Enc Text</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="hover:bg-base-200">
+        <td>Step 1</td>
+        <td>T</td>
+        <td>T</td>
+        <td>Q</td>
+        <td>Text</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

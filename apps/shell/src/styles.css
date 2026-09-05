@@ -5,8 +5,7 @@
 html,
 body,
 enc-vis-shell-root,
-enc-vis-ng-mfe-root,
-enc-vis-react-mfe-root {
+enc-vis-ng-mfe-root {
   display: block;
   height: 100%;
   width: 100%;

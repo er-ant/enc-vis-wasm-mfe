@@ -1,5 +1,5 @@
 <enc-vis-shell-header (cardChoosen)="cardAddedHandler($event)"></enc-vis-shell-header>
-<main class="w-full h-[calc(100vh-2.5rem)] overflow-y-auto grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
+<main class="w-full h-[calc(100vh-2.5rem)] overflow-y-auto grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 bg-primary/5 p-3">
   @for (microfrontend of microfrontends(); track microfrontend.id) {
     @switch (microfrontend.framework) {
       @case ('Angular') {

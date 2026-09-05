@@ -1,19 +1,19 @@
-<div>
-  <p>cesar works!</p>
-  <input placeholder="Input text"/>
+<div class="flex-initial self-start flex flex-col bg-base-100 shadow-sm p-2 gap-3">
+  <ng-content></ng-content>
+  <input class="input" placeholder="Input text"/>
   @switch (algorithm()) {
     @case (encryptions.Cesar) {
-      <input placeholder="Shift" type="number"/>
+      <input class="input" placeholder="Shift" type="number" min="0"/>
     }
     @case (encryptions.CesarKey) {
-      <input placeholder="Input key"/>
+      <input class="input" placeholder="Input key"/>
     }
   }
-  <input placeholder="Result" disabled/>
-  <button type="submit">Encode</button>
+  <input class="input" placeholder="Result" disabled/>
+  <button class="btn btn-primary" type="submit">Encode</button>
 </div>
-<div class="overflow-x-auto">
-  <table class="table">
+<div class="flex-1 overflow-y-auto">
+  <table class="table table-xs bg-base-100 shadow-sm">
     <thead>
       <tr>
         <th>Step</th>
@@ -21,7 +21,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr class="hover:bg-base-200">
         <td>Step 1</td>
         <td>Text</td>
       </tr>
