@@ -2,6 +2,8 @@
 // import styles from './app.module.scss';
 
 import { Encryptions } from '@enc-vis-wasm-mfe/shared-types';
+import Vigenere from './components/vigenere/vigenere';
+import Cesar from './components/cesar/cesar';
 
 interface IAppProps {
   algorithm: Encryptions;
@@ -11,7 +13,15 @@ interface IAppProps {
 export function App({ algorithm, onClose }: IAppProps) {
   return (
     <div>
-      React MFE {algorithm}
+      React MFE
+      {algorithm === Encryptions.Cesar || algorithm === Encryptions.CesarKey ? (
+        <Cesar />
+      ) : algorithm === Encryptions.Vigenere ? (
+        <Vigenere />
+      ) : (
+        'No such widget'
+      )}
+      <button type="button" onClick={() => onClose(true)}>X</button>
     </div>
   );
 }
