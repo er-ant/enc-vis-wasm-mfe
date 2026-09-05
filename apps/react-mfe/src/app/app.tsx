@@ -13,9 +13,9 @@ interface IAppProps {
 export function App({ algorithm, onClose }: IAppProps) {
   return (
     <div>
-      React MFE
+      React MFE {algorithm}
       {algorithm === Encryptions.Cesar || algorithm === Encryptions.CesarKey ? (
-        <Cesar />
+        <Cesar algorithm={algorithm}/>
       ) : algorithm === Encryptions.Vigenere ? (
         <Vigenere />
       ) : (

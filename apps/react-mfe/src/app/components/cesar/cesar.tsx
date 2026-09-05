@@ -1,9 +1,37 @@
 // import styles from './cesar.module.scss';
 
-export function Cesar() {
+import { Encryptions } from '@enc-vis-wasm-mfe/shared-types';
+
+interface ICesarProps {
+  algorithm: Encryptions;
+}
+
+export function Cesar({ algorithm }: ICesarProps) {
   return (
     <div>
-      <h1>Welcome to Cesar!</h1>
+      <div>
+        <p>cesar works!</p>
+        <input placeholder="Input text"/>
+        {algorithm === Encryptions.Cesar ? (
+          <input placeholder="Shift" type="number"/>
+        ) : (
+          <input placeholder="Input key"/>
+        )}
+        <input placeholder="Result" disabled/>
+        <button type="submit">Encode</button>
+      </div>
+      <table>
+        <thead>
+          <th>Step</th>
+          <th>Text</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Step 1</td>
+            <td>Text</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 }

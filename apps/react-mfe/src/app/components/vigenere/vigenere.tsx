@@ -3,7 +3,31 @@
 export function Vigenere() {
   return (
     <div>
-      <h1>Welcome to Vigenere!</h1>
+      <div>
+        <p>vigenere works!</p>
+        <input placeholder="Input text"/>
+        <input placeholder="Input key"/>
+        <input placeholder="Result" disabled/>
+        <button type="submit">Encode</button>
+      </div>
+      <table>
+        <thead>
+          <th>Step</th>
+          <th>Letter</th>
+          <th>Key's Letter</th>
+          <th>Enc Letter</th>
+          <th>Enc Text</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Step 1</td>
+            <td>T</td>
+            <td>T</td>
+            <td>Q</td>
+            <td>Text</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 }
