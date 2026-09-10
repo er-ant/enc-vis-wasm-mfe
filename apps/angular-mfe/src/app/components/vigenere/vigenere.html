@@ -1,10 +1,14 @@
-<div class="flex-initial self-start flex flex-col bg-base-100 shadow-sm p-2 gap-3">
+<form class="flex-initial self-start flex flex-col bg-base-100 shadow-sm p-2 gap-3" (submit)="onSubmit($event)">
   <ng-content></ng-content>
-  <input class="input" placeholder="Input text"/>
-  <input class="input" placeholder="Input key"/>
-  <input class="input" placeholder="Result" disabled/>
-  <button class="btn btn-primary" type="submit">Encode</button>
-</div>
+  <input class="input" placeholder="Input text" [formField]="cardInputForm.text" [class.input-error]="cardInputForm.text().dirty() && cardInputForm.text().invalid()"/>
+  <input class="input" placeholder="Input key" [formField]="cardInputForm.key" [class.input-error]="cardInputForm.key().dirty() && cardInputForm.key().invalid()"/>
+  <label class="label">
+    <input class="toggle" type="checkbox" [formField]="cardInputForm.isByCodes"/>
+    By character codes
+  </label>
+  <input class="input" placeholder="Result" disabled [value]="vigenereResults()[this.vigenereResults().length - 1]?.encryptedText"/>
+  <button class="btn btn-primary" type="submit" [disabled]="cardInputForm().invalid()">Encode</button>
+</form>
 <div class="flex-1 overflow-y-auto">
   <table class="table table-xs bg-base-100 shadow-sm">
     <thead>
@@ -17,13 +21,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="hover:bg-base-200">
-        <td>Step 1</td>
-        <td>T</td>
-        <td>T</td>
-        <td>Q</td>
-        <td>Text</td>
-      </tr>
+      @for (row of vigenereResults(); track $index) {
+        <tr class="hover:bg-base-200">
+          <td>Step {{ $index }}</td>
+          <td>{{ row.originalLetter.word }}({{ row.originalLetter.number }})</td>
+          <td>{{ row.keyLetter.word }}({{ row.keyLetter.number }})</td>
+          <td>{{ row.encryptedLetter.word }}({{ row.encryptedLetter.number }})</td>
+          <td>{{ row.encryptedText }}</td>
+        </tr>
+      }
     </tbody>
   </table>
 </div>

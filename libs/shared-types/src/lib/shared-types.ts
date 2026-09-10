@@ -10,3 +10,15 @@ export enum Encryptions {
   CesarKey = 'CesarKey',
   Vigenere = 'Vigenere'
 }
+
+export interface IVigenereResponse {
+  originalLetter: IVigenereLetter;
+  keyLetter: IVigenereLetter;
+  encryptedLetter: IVigenereLetter;
+  encryptedText: string;
+}
+
+export interface IVigenereLetter {
+  word: string;
+  number: number;
+}

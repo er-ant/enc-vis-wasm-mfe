@@ -22,6 +22,10 @@
             "glob": "**/*",
             "input": "apps/shell/public",
             "output": "."
+          }, {
+            "glob": "**/*",
+            "input": "assets",
+            "output": "assets"
           }
         ],
         "styles": [
