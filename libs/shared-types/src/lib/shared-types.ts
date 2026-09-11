@@ -22,3 +22,15 @@ export interface IVigenereLetter {
   word: string;
   number: number;
 }
+
+export interface ICesarResponse {
+  encryptedText: string;
+  index: number;
+}
+
+export interface ICesarWithKeyResponse {
+  encryptedText: string;
+  key: Array<string>;
+  arrayKeyNumbers: Array<number>;
+  arrayWords: Array<string[]>;
+}

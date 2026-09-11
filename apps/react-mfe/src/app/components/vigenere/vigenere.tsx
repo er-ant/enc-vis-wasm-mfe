@@ -33,12 +33,12 @@ export function Vigenere({ children }: IVigenereProps) {
   }
 
   function encode(): void {
-    const results = isByCodes ?
+    const wasmResults = isByCodes ?
       (window as any).vigenereEncryptWithCodes(key, input):
       (window as any).vigenereEncrypt(key, input);
 
-    setResult(results[results.length - 1]?.encryptedText)
-    setVigenereResults(results);
+    setResult(wasmResults[wasmResults.length - 1]?.encryptedText)
+    setVigenereResults(wasmResults);
   }
 
   function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
