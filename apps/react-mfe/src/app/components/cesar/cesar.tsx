@@ -1,20 +1,41 @@
-// import styles from './cesar.module.scss';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useForm } from '@tanstack/react-form';
 
-import { Encryptions, ICesarResponse, ICesarWithKeyResponse, JAVA_CESAR_URL } from '@enc-vis-wasm-mfe/shared-types';
+import {
+  Encryptions,
+  ICesarResponse,
+  ICesarWithKeyResponse,
+  JAVA_CESAR_URL,
+} from '@enc-vis-wasm-mfe/shared-types';
 
 interface ICesarProps {
   algorithm: Encryptions;
   children?: React.ReactNode;
 }
 
+interface ICardInput {
+  text: string;
+  key: string;
+  shift: number | null;
+}
+
 export function Cesar({ algorithm, children }: ICesarProps) {
-  const [input, setInput] = useState('');
-  const [key, setKey] = useState('');
-  const [shift, setShift] = useState<number | null>(null);
   const [result, setResult] = useState('');
-  const [cesarResults, setCesarResults] = useState<Array<ICesarResponse | ICesarWithKeyResponse>>([]);
+  const [cesarResults, setCesarResults] = useState<
+    Array<ICesarResponse | ICesarWithKeyResponse>
+  >([]);
   const teavm = useRef<any | null>(null);
+
+  const form = useForm({
+    defaultValues: {
+      text: '',
+      key: '',
+      shift: null,
+    } as ICardInput,
+    onSubmit: ({ value }) => {
+      encode(value);
+    },
+  });
 
   useEffect(() => {
     initJavaWASM();
@@ -43,39 +64,125 @@ export function Cesar({ algorithm, children }: ICesarProps) {
       });
   }
 
-  function encode(): void {
-    const wasmResults: Array<ICesarResponse | ICesarWithKeyResponse> = JSON.parse(algorithm === Encryptions.Cesar ?
-      teavm.current!.exports.cesarEncrypt(shift, input):
-      teavm.current!.exports.cesarWithKeyEncrypt(key, input)
-    );
+  function encode(data: ICardInput): void {
+    const wasmResults: Array<ICesarResponse | ICesarWithKeyResponse> =
+      JSON.parse(algorithm === Encryptions.Cesar ?
+        teavm.current!.exports.cesarEncrypt(data.shift, data.text) :
+        teavm.current!.exports.cesarWithKeyEncrypt(data.key, data.text)
+      );
     setCesarResults(wasmResults);
 
     if (algorithm === Encryptions.Cesar) {
-      setResult(wasmResults[wasmResults.length - 1]?.encryptedText)
+      setResult(wasmResults[wasmResults.length - 1]?.encryptedText);
     } else {
-      setResult((wasmResults as any).encryptedText)
+      setResult((wasmResults as any).encryptedText);
     }
   }
 
-  function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
-    e.preventDefault();
-    encode();
-  }
+  const isCesar = algorithm === Encryptions.Cesar;
 
   return (
     <div className="flex w-full h-full bg-base-300 p-2 gap-2">
-      <form className={`self-start flex flex-col bg-base-100 shadow-sm p-2 gap-3 ${algorithm === Encryptions.CesarKey ? 'flex-1' : algorithm === Encryptions.Cesar ? 'flex-initial' : ''}`} onSubmit={handleSubmit}>
+      <form
+        className={`self-start flex flex-col bg-base-100 shadow-sm p-2 gap-3
+          ${algorithm === Encryptions.CesarKey ? 'flex-1' : isCesar ? 'flex-initial' : ''}`}
+        onSubmit={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          form.handleSubmit();
+        }}
+      >
         {children}
-        <input className="input w-full" placeholder="Input text" value={input} onChange={e => setInput(e.target.value)}/>
-        {algorithm === Encryptions.Cesar ? (
-          <input className="input w-full" placeholder="Shift" type="number" min="0" onChange={e => setShift(Number(e.target.value))}/>
-        ) : (
-          <input className="input w-full" placeholder="Input key" value={key} onChange={e => setKey(e.target.value)}/>
+
+        <form.Field
+          name="text"
+          validators={{
+            onChange: ({ value }) => {
+              if (!value) return 'required';
+              if (!/^[A-Za-z]+(?:\s[A-Za-z]+)*$/.test(value)) return 'pattern';
+              return undefined;
+            },
+          }}
+        >
+          {(field) => (
+            <input
+              className={`input w-full ${field.state.meta.isDirty && field.state.meta.errors.length ? 'input-error' : ''}`}
+              placeholder="Input text"
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+              onBlur={field.handleBlur}
+            />
+          )}
+        </form.Field>
+
+        {isCesar && (
+          <form.Field
+            name="shift"
+            validators={{
+              onChange: ({ value }) => {
+                if (value === null || value === undefined) return 'Shift is required';
+                if (value < 0) return 'min';
+                return undefined;
+              },
+            }}
+          >
+            {(field) => (
+              <input
+                className={`input w-full ${field.state.meta.isDirty && field.state.meta.errors.length ? 'input-error' : ''}`}
+                placeholder="Shift"
+                type="number"
+                min={0}
+                value={field.state.value ?? ''}
+                onChange={(e) =>
+                  field.handleChange(e.target.value === '' ? null : Number(e.target.value))
+                }
+                onBlur={field.handleBlur}
+              />
+            )}
+          </form.Field>
         )}
-        <input className="input w-full" placeholder="Result" value={result} disabled/>
-        <button className="btn btn-primary w-full" type="submit">Encode</button>
+
+        {!isCesar && (
+          <form.Field
+            name="key"
+            validators={{
+              onChange: ({ value }) => {
+                if (!value) return 'required';
+                if (!/^[A-Za-z]+$/.test(value)) return 'pattern';
+                return undefined;
+              },
+            }}
+          >
+            {(field) => (
+              <input
+                className={`input w-full ${field.state.meta.isDirty && field.state.meta.errors.length ? 'input-error' : ''}`}
+                placeholder="Input key"
+                value={field.state.value}
+                onChange={(e) => field.handleChange(e.target.value)}
+                onBlur={field.handleBlur}
+              />
+            )}
+          </form.Field>
+        )}
+
+        <input className="input w-full" placeholder="Result" value={result} disabled />
+
+        <form.Subscribe
+          selector={(state) => [state.canSubmit, state.isSubmitting, state.isPristine] as const}
+        >
+          {([canSubmit, isSubmitting, isPristine]) => (
+            <button
+              className="btn btn-primary w-full"
+              type="submit"
+              disabled={isPristine || !canSubmit || isSubmitting}
+            >
+              Encode
+            </button>
+          )}
+        </form.Subscribe>
       </form>
-      {algorithm === Encryptions.Cesar && (
+
+      {isCesar && (
         <div className="flex-1 overflow-y-auto">
           <table className="table table-xs bg-base-100 shadow-sm">
             <thead>
@@ -85,10 +192,10 @@ export function Cesar({ algorithm, children }: ICesarProps) {
               </tr>
             </thead>
             <tbody>
-              {cesarResults.map((result, index) => (
+              {cesarResults.map((row, index) => (
                 <tr className="hover:bg-base-200" key={index}>
                   <td>Step {index}</td>
-                  <td>{ result.encryptedText }</td>
+                  <td>{row.encryptedText}</td>
                 </tr>
               ))}
             </tbody>
