@@ -1,5 +1,5 @@
-// import styles from './vigenere.module.scss';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { IVigenereResponse, GO_VIGENERE_URL } from '@enc-vis-wasm-mfe/shared-types';
 
@@ -7,12 +7,26 @@ interface IVigenereProps {
   children?: React.ReactNode;
 }
 
+interface ICardInput {
+  text: string;
+  key: string;
+  isByCodes: boolean;
+}
+
 export function Vigenere({ children }: IVigenereProps) {
-  const [input, setInput] = useState('');
-  const [key, setKey] = useState('');
-  const [isByCodes, setIsByCodes] = useState(false);
-  const [result, setResult] = useState('');
-  const [vigenereResults, setVigenereResults] = useState<Array<IVigenereResponse>>([]);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, touchedFields, isValid },
+  } = useForm<ICardInput>({
+    mode: 'onChange',
+    defaultValues: { text: '', key: '', isByCodes: false },
+  });
+
+  const isByCodes = watch('isByCodes');
+
+  const [vigenereResults, setVigenereResults] = React.useState<Array<IVigenereResponse>>([]);
 
   useEffect(() => {
     initGoWASM();
@@ -24,44 +38,64 @@ export function Vigenere({ children }: IVigenereProps) {
 
   function initGoWASM(): void {
     const go = new (window as any).Go();
-
     WebAssembly
       .instantiateStreaming(fetch(GO_VIGENERE_URL), go.importObject)
-      .then(
-        (result: any) => {
-          // functions from WASM are available after go.run()
-          go.run(result.instance);
-        }
-      );
+      .then((result: any) => {
+        go.run(result.instance);
+      });
   }
 
-  function encode(): void {
-    const wasmResults = isByCodes ?
-      (window as any).vigenereEncryptWithCodes(key, input):
-      (window as any).vigenereEncrypt(key, input);
+  const onSubmit = (data: ICardInput) => {
+    const wasmResults = data.isByCodes
+      ? (window as any).vigenereEncryptWithCodes(data.key, data.text)
+      : (window as any).vigenereEncrypt(data.key, data.text);
 
-    setResult(wasmResults[wasmResults.length - 1]?.encryptedText)
     setVigenereResults(wasmResults);
-  }
+  };
 
-  function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
-    e.preventDefault();
-    encode();
-  }
+  const lastResult = vigenereResults[vigenereResults.length - 1]?.encryptedText ?? '';
 
   return (
     <div className="flex w-full h-full bg-base-300 p-2 gap-2">
-      <form className="flex-initial self-start flex flex-col bg-base-100 shadow-sm p-2 gap-3" onSubmit={handleSubmit}>
+      <form
+        className="flex-initial self-start flex flex-col bg-base-100 shadow-sm p-2 gap-3"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         {children}
-        <input className="input" placeholder="Input text" value={input} onChange={e => setInput(e.target.value)}/>
-        <input className="input" placeholder="Input key" value={key} onChange={e => setKey(e.target.value)}/>
+        <input
+          className={`input ${touchedFields.text && errors.text ? 'input-error' : ''}`}
+          placeholder="Input text"
+          {...register('text', {
+            required: true,
+            pattern: /^[A-Za-z]+$/,
+          })}
+        />
+
+        <input
+          className={`input ${touchedFields.key && errors.key ? 'input-error' : ''}`}
+          placeholder="Input key"
+          {...register('key', {
+            required: true,
+            pattern: /^[A-Za-z]+$/,
+          })}
+        />
+
         <label className="label">
-          <input className="toggle" type="checkbox" checked={isByCodes} onChange={e => setIsByCodes(e.target.checked)}/>
+          <input
+            className="toggle"
+            type="checkbox"
+            {...register('isByCodes')}
+          />
           By character codes
         </label>
-        <input className="input" placeholder="Result" value={result} disabled/>
-        <button className="btn btn-primary" type="submit">Encode</button>
+
+        <input className="input" placeholder="Result" value={lastResult} disabled />
+
+        <button className="btn btn-primary" type="submit" disabled={!isValid}>
+          Encode
+        </button>
       </form>
+
       <div className="flex-1 overflow-y-auto">
         <table className="table table-xs bg-base-100 shadow-sm">
           <thead>
@@ -77,13 +111,15 @@ export function Vigenere({ children }: IVigenereProps) {
             {vigenereResults.map((result, index) => (
               <tr className="hover:bg-base-200" key={index}>
                 <td>Step {index}</td>
-                <td>{ result.originalLetter.word }({ result.originalLetter.number })</td>
-                <td>{ result.keyLetter.word }({ result.keyLetter.number })</td>
+                <td>{result.originalLetter.word}({result.originalLetter.number})</td>
+                <td>{result.keyLetter.word}({result.keyLetter.number})</td>
                 <td>
-                  {isByCodes ? getEncryptedWord(result.encryptedLetter.number) : result.encryptedLetter.word}
+                  {isByCodes
+                    ? getEncryptedWord(result.encryptedLetter.number)
+                    : result.encryptedLetter.word}
                   ({result.encryptedLetter.number})
                 </td>
-                <td>{ result.encryptedText }</td>
+                <td>{result.encryptedText}</td>
               </tr>
             ))}
           </tbody>
