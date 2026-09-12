@@ -64,35 +64,37 @@ export function Cesar({ algorithm, children }: ICesarProps) {
 
   return (
     <div className="flex w-full h-full bg-base-300 p-2 gap-2">
-      <form className="flex-initial self-start flex flex-col bg-base-100 shadow-sm p-2 gap-3" onSubmit={handleSubmit}>
+      <form className={`self-start flex flex-col bg-base-100 shadow-sm p-2 gap-3 ${algorithm === Encryptions.CesarKey ? 'flex-1' : algorithm === Encryptions.Cesar ? 'flex-initial' : ''}`} onSubmit={handleSubmit}>
         {children}
-        <input className="input" placeholder="Input text" value={input} onChange={e => setInput(e.target.value)}/>
+        <input className="input w-full" placeholder="Input text" value={input} onChange={e => setInput(e.target.value)}/>
         {algorithm === Encryptions.Cesar ? (
-          <input className="input" placeholder="Shift" type="number" min="0" onChange={e => setShift(Number(e.target.value))}/>
+          <input className="input w-full" placeholder="Shift" type="number" min="0" onChange={e => setShift(Number(e.target.value))}/>
         ) : (
-          <input className="input" placeholder="Input key" value={key} onChange={e => setKey(e.target.value)}/>
+          <input className="input w-full" placeholder="Input key" value={key} onChange={e => setKey(e.target.value)}/>
         )}
-        <input className="input" placeholder="Result" value={result} disabled/>
-        <button className="btn btn-primary" type="submit">Encode</button>
+        <input className="input w-full" placeholder="Result" value={result} disabled/>
+        <button className="btn btn-primary w-full" type="submit">Encode</button>
       </form>
-      <div className="flex-1 overflow-y-auto">
-        <table className="table table-xs bg-base-100 shadow-sm">
-          <thead>
-            <tr>
-              <th>Step</th>
-              <th>Text</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cesarResults.map((result, index) => (
-              <tr className="hover:bg-base-200" key={index}>
-                <td>Step {index}</td>
-                <td>{ result.encryptedText }</td>
+      {algorithm === Encryptions.Cesar && (
+        <div className="flex-1 overflow-y-auto">
+          <table className="table table-xs bg-base-100 shadow-sm">
+            <thead>
+              <tr>
+                <th>Step</th>
+                <th>Text</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {cesarResults.map((result, index) => (
+                <tr className="hover:bg-base-200" key={index}>
+                  <td>Step {index}</td>
+                  <td>{ result.encryptedText }</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
