@@ -1,7 +1,7 @@
 import { Component, input, signal } from '@angular/core';
 import { form, FormField, required, pattern, min, validate, submit } from '@angular/forms/signals';
 
-import { Encryptions, ICesarResponse, ICesarWithKeyResponse, JAVA_CESAR_URL } from '@enc-vis-wasm-mfe/shared-types';
+import { Encryptions, ICesarResponse, ICesarWithKeyResponse, JAVA_CESAR_URL, TEXT_WITH_SPACES, KEY_NO_SPACES } from '@enc-vis-wasm-mfe/shared-types';
 
 interface ICardInput {
   text: string;
@@ -34,8 +34,8 @@ export class Cesar {
 
   cardInputForm = form(this.cardInputModel, (schemaPath) => {
     required(schemaPath.text);
-    pattern(schemaPath.text, /^[A-Za-z]+(?:\s[A-Za-z]+)*$/);
-    pattern(schemaPath.key, /^[A-Za-z]+$/);
+    pattern(schemaPath.text, TEXT_WITH_SPACES);
+    pattern(schemaPath.key, KEY_NO_SPACES);
     min(schemaPath.shift, 0);
     validate(schemaPath.shift, ({ value }) => {
       if (this.algorithm() === this.encryptions.Cesar && !value()) {

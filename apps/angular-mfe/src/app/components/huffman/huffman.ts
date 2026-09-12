@@ -1,7 +1,7 @@
 import { Component, input, signal } from '@angular/core';
 import { form, FormField, required, pattern, min, validate, submit } from '@angular/forms/signals';
 
-import { IHuffmanResult, GO_HUFFMAN_URL } from '@enc-vis-wasm-mfe/shared-types';
+import { IHuffmanResult, GO_HUFFMAN_URL, TEXT_WITH_SPACES } from '@enc-vis-wasm-mfe/shared-types';
 
 interface ICardInput {
   text: string;
@@ -26,7 +26,7 @@ export class Huffman {
 
   cardInputForm = form(this.cardInputModel, (schemaPath) => {
     required(schemaPath.text);
-    pattern(schemaPath.text, /^[A-Za-z]+(?:\s[A-Za-z]+)*$/);
+    pattern(schemaPath.text, TEXT_WITH_SPACES);
   });
 
   result = '';

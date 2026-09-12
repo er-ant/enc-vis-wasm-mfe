@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, useStore } from '@tanstack/react-form';
 
-import { IHuffmanResult, GO_HUFFMAN_URL } from '@enc-vis-wasm-mfe/shared-types';
+import { IHuffmanResult, GO_HUFFMAN_URL, TEXT_WITH_SPACES } from '@enc-vis-wasm-mfe/shared-types';
 
 interface IHuffmanProps {
   children?: React.ReactNode;
@@ -9,13 +9,6 @@ interface IHuffmanProps {
 
 interface ICardInput {
   text: string;
-}
-
-const TEXT_PATTERN = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
-
-function isTextValid(text: string): boolean {
-  if (!text) return false;
-  return TEXT_PATTERN.test(text);
 }
 
 export function Huffman({ children }: IHuffmanProps) {
@@ -67,7 +60,7 @@ export function Huffman({ children }: IHuffmanProps) {
             validators={{
               onChange: ({ value }) => {
                 if (!value) return 'required';
-                if (!TEXT_PATTERN.test(value)) return 'pattern';
+                if (!TEXT_WITH_SPACES.test(value)) return 'pattern';
                 return undefined;
               },
             }}

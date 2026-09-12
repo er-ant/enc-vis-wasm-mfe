@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { IVigenereResponse, GO_VIGENERE_URL } from '@enc-vis-wasm-mfe/shared-types';
+import { IVigenereResponse, GO_VIGENERE_URL, TEXT_WITH_SPACES, KEY_NO_SPACES } from '@enc-vis-wasm-mfe/shared-types';
 
 interface IVigenereProps {
   children?: React.ReactNode;
@@ -67,7 +67,7 @@ export function Vigenere({ children }: IVigenereProps) {
           placeholder="Input text"
           {...register('text', {
             required: true,
-            pattern: /^[A-Za-z]+$/,
+            pattern: TEXT_WITH_SPACES,
           })}
         />
 
@@ -76,7 +76,7 @@ export function Vigenere({ children }: IVigenereProps) {
           placeholder="Input key"
           {...register('key', {
             required: true,
-            pattern: /^[A-Za-z]+$/,
+            pattern: KEY_NO_SPACES,
           })}
         />
 

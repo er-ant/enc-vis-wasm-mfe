@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { form, FormField, required, pattern, submit } from '@angular/forms/signals';
 
-import { IVigenereResponse, GO_VIGENERE_URL } from '@enc-vis-wasm-mfe/shared-types';
+import { IVigenereResponse, GO_VIGENERE_URL, TEXT_WITH_SPACES, KEY_NO_SPACES } from '@enc-vis-wasm-mfe/shared-types';
 
 interface ICardInput {
   text: string;
@@ -30,9 +30,9 @@ export class Vigenere {
 
   cardInputForm = form(this.cardInputModel, (schemaPath) => {
     required(schemaPath.text);
-    pattern(schemaPath.text, /^[A-Za-z]+$/);
+    pattern(schemaPath.text, TEXT_WITH_SPACES);
     required(schemaPath.key);
-    pattern(schemaPath.key, /^[A-Za-z]+$/);
+    pattern(schemaPath.key, KEY_NO_SPACES);
   });
 
   constructor() {

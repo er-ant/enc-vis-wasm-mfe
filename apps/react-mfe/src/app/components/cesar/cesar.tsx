@@ -1,12 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from '@tanstack/react-form';
 
-import {
-  Encryptions,
-  ICesarResponse,
-  ICesarWithKeyResponse,
-  JAVA_CESAR_URL,
-} from '@enc-vis-wasm-mfe/shared-types';
+import { Encryptions, ICesarResponse, ICesarWithKeyResponse, JAVA_CESAR_URL, TEXT_WITH_SPACES, KEY_NO_SPACES } from '@enc-vis-wasm-mfe/shared-types';
 
 interface ICesarProps {
   algorithm: Encryptions;
@@ -20,10 +15,8 @@ interface ICardInput {
 }
 
 export function Cesar({ algorithm, children }: ICesarProps) {
+  const [cesarResults, setCesarResults] = useState<Array<ICesarResponse | ICesarWithKeyResponse>>([]);
   const [result, setResult] = useState('');
-  const [cesarResults, setCesarResults] = useState<
-    Array<ICesarResponse | ICesarWithKeyResponse>
-  >([]);
   const teavm = useRef<any | null>(null);
 
   const form = useForm({
@@ -99,7 +92,7 @@ export function Cesar({ algorithm, children }: ICesarProps) {
           validators={{
             onChange: ({ value }) => {
               if (!value) return 'required';
-              if (!/^[A-Za-z]+(?:\s[A-Za-z]+)*$/.test(value)) return 'pattern';
+              if (!TEXT_WITH_SPACES.test(value)) return 'pattern';
               return undefined;
             },
           }}
@@ -148,7 +141,7 @@ export function Cesar({ algorithm, children }: ICesarProps) {
             validators={{
               onChange: ({ value }) => {
                 if (!value) return 'required';
-                if (!/^[A-Za-z]+$/.test(value)) return 'pattern';
+                if (!KEY_NO_SPACES.test(value)) return 'pattern';
                 return undefined;
               },
             }}
