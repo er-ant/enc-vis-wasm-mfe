@@ -1,15 +1,15 @@
 <form class="flex-initial self-start flex flex-col bg-base-100 shadow-sm p-2 gap-3" (submit)="onSubmit($event)">
   <ng-content></ng-content>
-  <input class="input" placeholder="Input text" [formField]="cardInputForm.text" [class.input-error]="cardInputForm.text().dirty() && cardInputForm.text().invalid()"/>
-  <input class="input" placeholder="Input key" [formField]="cardInputForm.key" [class.input-error]="cardInputForm.key().dirty() && cardInputForm.key().invalid()"/>
+  <input class="input w-full" placeholder="Input text" [formField]="cardInputForm.text" [class.input-error]="cardInputForm.text().dirty() && cardInputForm.text().invalid()"/>
+  <input class="input w-full" placeholder="Input key" [formField]="cardInputForm.key" [class.input-error]="cardInputForm.key().dirty() && cardInputForm.key().invalid()"/>
   <label class="label">
     <input class="toggle" type="checkbox" [formField]="cardInputForm.isByCodes"/>
     By character codes
   </label>
-  <input class="input" placeholder="Result" [formField]="cardInputForm.result"/>
-  <button class="btn btn-primary" type="submit" [disabled]="cardInputForm().invalid()">Encode</button>
+  <input class="input w-full" placeholder="Result" [formField]="cardInputForm.result"/>
+  <button class="btn btn-primary w-full" type="submit" [disabled]="cardInputForm().invalid()">Encode</button>
 </form>
-<div class="flex-1 overflow-y-auto">
+<div class="flex-1 min-h-0 overflow-y-auto">
   <table class="table table-xs bg-base-100 shadow-sm">
     <thead>
       <tr>

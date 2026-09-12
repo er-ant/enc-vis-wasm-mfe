@@ -176,7 +176,7 @@ export function Cesar({ algorithm, children }: ICesarProps) {
       </form>
 
       {isCesar && (
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 min-h-0 overflow-y-auto">
           <table className="table table-xs bg-base-100 shadow-sm">
             <thead>
               <tr>

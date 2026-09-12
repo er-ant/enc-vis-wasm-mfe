@@ -63,7 +63,7 @@ export function Vigenere({ children }: IVigenereProps) {
       >
         {children}
         <input
-          className={`input ${touchedFields.text && errors.text ? 'input-error' : ''}`}
+          className={`input w-full ${touchedFields.text && errors.text ? 'input-error' : ''}`}
           placeholder="Input text"
           {...register('text', {
             required: true,
@@ -72,7 +72,7 @@ export function Vigenere({ children }: IVigenereProps) {
         />
 
         <input
-          className={`input ${touchedFields.key && errors.key ? 'input-error' : ''}`}
+          className={`input w-full ${touchedFields.key && errors.key ? 'input-error' : ''}`}
           placeholder="Input key"
           {...register('key', {
             required: true,
@@ -89,14 +89,14 @@ export function Vigenere({ children }: IVigenereProps) {
           By character codes
         </label>
 
-        <input className="input" placeholder="Result" value={lastResult} disabled />
+        <input className="input w-full" placeholder="Result" value={lastResult} disabled />
 
-        <button className="btn btn-primary" type="submit" disabled={!isValid}>
+        <button className="btn btn-primary w-full" type="submit" disabled={!isValid}>
           Encode
         </button>
       </form>
 
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 min-h-0 overflow-y-auto">
         <table className="table table-xs bg-base-100 shadow-sm">
           <thead>
             <tr>
