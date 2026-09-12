@@ -8,7 +8,8 @@ export enum Encryptions {
   None = '',
   Cesar = 'Cesar',
   CesarKey = 'CesarKey',
-  Vigenere = 'Vigenere'
+  Vigenere = 'Vigenere',
+  Huffman = 'Huffman'
 }
 
 export interface IVigenereResponse {
@@ -21,6 +22,28 @@ export interface IVigenereResponse {
 export interface IVigenereLetter {
   word: string;
   number: number;
+}
+
+export interface IHuffmanNode {
+  id: string;
+  freq: number;
+  isLeaf: boolean;
+  code?: string;
+}
+
+export interface IHuffmanStep {
+  step: number;
+  symbol?: string;
+  code?: string;
+  text: string;
+}
+
+export interface IHuffmanResult {
+  input: string;
+  result: string;
+  table: Array<IHuffmanNode>;
+  steps: Array<IHuffmanStep>;
+  codes: { [key: string]: string };
 }
 
 export interface ICesarResponse {

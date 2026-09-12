@@ -1,0 +1,50 @@
+<div class="flex gap-2 min-h-0 flex-1">
+  <form class="flex-initial flex flex-col bg-base-100 shadow-sm p-2 gap-3 max-h-full" (submit)="onSubmit($event)">
+    <ng-content></ng-content>
+    <input class="input w-full" placeholder="Input text" [formField]="cardInputForm.text" [class.input-error]="cardInputForm.text().dirty() && cardInputForm.text().invalid()"/>
+    <input class="input w-full" placeholder="Result" disabled [value]="result"/>
+    <button class="btn btn-primary w-full" type="submit" [disabled]="cardInputForm().invalid()">Encode</button>
+  </form>
+  <div class="flex-1 min-h-0 overflow-y-auto">
+    <table class="table table-xs bg-base-100 shadow-sm">
+      <thead>
+        <tr>
+          <th>Letter</th>
+          <th>Frequency</th>
+          <th>Code</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of huffmanResults().table; track $index) {
+          <tr class="hover:bg-base-200">
+            <td>{{ row.id }}</td>
+            <td>{{ row.freq }}</td>
+            <td>{{ row.isLeaf ? row.code : 'N/A' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="flex-1 min-h-0 overflow-auto">
+  <table class="table table-xs bg-base-100 shadow-sm">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Letter</th>
+        <th>Code</th>
+        <th>Enc Text</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of huffmanResults().steps; track $index) {
+        <tr class="hover:bg-base-200">
+          <td>Step {{ $index }}</td>
+          <td>{{ row.symbol }}</td>
+          <td>{{ row.code }}</td>
+          <td>{{ row.text }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

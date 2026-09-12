@@ -3,13 +3,13 @@
   @for (microfrontend of microfrontends(); track microfrontend.id) {
     @switch (microfrontend.framework) {
       @case ('Angular') {
-        <enc-vis-shell-angular-wrapper class="w-full lg:w-[calc(50%-8px)]" [angularAppInfo]="MICROFRONTENDS_MODULE_INFO[microfrontend.framework]" [algorithm]="microfrontend.algorithm"
+        <enc-vis-shell-angular-wrapper class="w-full lg:w-[calc(50%-8px)] h-[400px]" [angularAppInfo]="MICROFRONTENDS_MODULE_INFO[microfrontend.framework]" [algorithm]="microfrontend.algorithm"
           (cardDestroy)="removeCardHandler(microfrontend.id)">
         </enc-vis-shell-angular-wrapper>
       }
 
       @case ('React') {
-        <enc-vis-shell-react-wrapper class="w-full lg:w-[calc(50%-8px)]" [reactAppInfo]="MICROFRONTENDS_MODULE_INFO[microfrontend.framework]" [algorithm]="microfrontend.algorithm"
+        <enc-vis-shell-react-wrapper class="w-full lg:w-[calc(50%-8px)] h-[400px]" [reactAppInfo]="MICROFRONTENDS_MODULE_INFO[microfrontend.framework]" [algorithm]="microfrontend.algorithm"
           (cardDestroy)="removeCardHandler(microfrontend.id)">
         </enc-vis-shell-react-wrapper>
       }

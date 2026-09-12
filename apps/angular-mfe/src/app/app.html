@@ -17,5 +17,14 @@
       </div>
     </enc-vis-ng-mfe-vigenere>
   }
+
+  @case (encryptions.Huffman) {
+    <enc-vis-ng-mfe-huffman>
+      <div class="flex justify-between">
+        Angular-MFE - {{ algorithm() }}
+        <button class="cursor-pointer" type="button" (click)="onClose.emit(true)">✖</button>
+      </div>
+    </enc-vis-ng-mfe-huffman>
+  }
 }
 <router-outlet></router-outlet>

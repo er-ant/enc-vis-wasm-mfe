@@ -4,6 +4,7 @@
 import { Encryptions } from '@enc-vis-wasm-mfe/shared-types';
 import Vigenere from './components/vigenere/vigenere';
 import Cesar from './components/cesar/cesar';
+import Huffman from './components/huffman/huffman';
 
 interface IAppProps {
   algorithm: Encryptions;
@@ -27,6 +28,13 @@ export function App({ algorithm, onClose }: IAppProps) {
             <button className="cursor-pointer" type="button" onClick={() => onClose(true)}>✖</button>
           </div>
         </Vigenere>
+      ) : algorithm === Encryptions.Huffman ? (
+        <Huffman>
+          <div className="flex justify-between">
+            React MFE {algorithm}
+            <button className="cursor-pointer" type="button" onClick={() => onClose(true)}>✖</button>
+          </div>
+        </Huffman>
       ) : (
         'No such widget'
       )}

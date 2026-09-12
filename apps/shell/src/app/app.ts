@@ -37,6 +37,8 @@ export class App {
     }
   };
 
+  encryptions = Encryptions;
+
   microfrontends = signal<Array<IMFEInfo>>([]);
 
   cardAddedHandler($event: IAddCardConfig): void {

@@ -5,9 +5,10 @@ import { Encryptions } from '@enc-vis-wasm-mfe/shared-types';
 
 import { Cesar } from './components/cesar/cesar';
 import { Vigenere } from './components/vigenere/vigenere';
+import { Huffman } from './components/huffman/huffman';
 
 @Component({
-  imports: [RouterModule, Cesar, Vigenere],
+  imports: [RouterModule, Cesar, Vigenere, Huffman],
   selector: 'enc-vis-ng-mfe-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
