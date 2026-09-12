@@ -1,7 +1,7 @@
 // import styles from './vigenere.module.scss';
 import React, { useEffect, useState } from 'react';
 
-import { IVigenereResponse } from '@enc-vis-wasm-mfe/shared-types';
+import { IVigenereResponse, GO_VIGENERE_URL } from '@enc-vis-wasm-mfe/shared-types';
 
 interface IVigenereProps {
   children?: React.ReactNode;
@@ -26,7 +26,7 @@ export function Vigenere({ children }: IVigenereProps) {
     const go = new (window as any).Go();
 
     WebAssembly
-      .instantiateStreaming(fetch('/assets/wasm/go_vigenere/vigenere_go.wasm'), go.importObject)
+      .instantiateStreaming(fetch(GO_VIGENERE_URL), go.importObject)
       .then(
         (result: any) => {
           // functions from WASM are available after go.run()

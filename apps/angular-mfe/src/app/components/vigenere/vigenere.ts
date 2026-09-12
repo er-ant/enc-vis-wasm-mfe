@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { form, FormField, required, pattern, submit } from '@angular/forms/signals';
 
-import { IVigenereResponse } from '@enc-vis-wasm-mfe/shared-types';
+import { IVigenereResponse, GO_VIGENERE_URL } from '@enc-vis-wasm-mfe/shared-types';
 
 interface ICardInput {
   text: string;
@@ -56,15 +56,13 @@ export class Vigenere {
       (window as any).vigenereEncryptWithCodes(this.cardInputForm.key().value(), this.cardInputForm.text().value()):
       (window as any).vigenereEncrypt(this.cardInputForm.key().value(), this.cardInputForm.text().value())
     );
-
-    console.log(this.vigenereResults());
   }
 
   private initGoWASM(): void {
     const go = new (window as any).Go();
 
     WebAssembly
-      .instantiateStreaming(fetch('/assets/wasm/go_vigenere/vigenere_go.wasm'), go.importObject)
+      .instantiateStreaming(fetch(GO_VIGENERE_URL), go.importObject)
       .then(
         (result: any) => {
           // functions from WASM are available after go.run()

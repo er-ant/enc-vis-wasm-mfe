@@ -1,7 +1,7 @@
 import { Component, input, signal } from '@angular/core';
 import { form, FormField, required, pattern, min, validate, submit } from '@angular/forms/signals';
 
-import { Encryptions, ICesarResponse, ICesarWithKeyResponse } from '@enc-vis-wasm-mfe/shared-types';
+import { Encryptions, ICesarResponse, ICesarWithKeyResponse, JAVA_CESAR_URL } from '@enc-vis-wasm-mfe/shared-types';
 
 interface ICardInput {
   text: string;
@@ -51,6 +51,8 @@ export class Cesar {
     });
   });
 
+  result = '';
+
   private teavm: any;
 
   constructor() {
@@ -72,6 +74,12 @@ export class Cesar {
     );
 
     this.cesarResults.set(wasmResults);
+
+    if (this.algorithm() === Encryptions.Cesar) {
+      this.result = wasmResults[wasmResults.length - 1]?.encryptedText;
+    } else {
+      this.result = (wasmResults as any).encryptedText;
+    }
   }
 
   private initJavaWASM(): void {
@@ -85,7 +93,7 @@ export class Cesar {
     } catch {}
 
     w.TeaVM.wasmGC
-      .load('assets/wasm/java_cesar/java_wasm_cesar/target/wasm-gc/classes.wasm')
+      .load(JAVA_CESAR_URL)
       .then((teavm: any) => {
         this.teavm = teavm;
       })

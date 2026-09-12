@@ -1,7 +1,7 @@
 // import styles from './cesar.module.scss';
 import React, { useEffect, useState, useRef } from 'react';
 
-import { Encryptions, ICesarResponse, ICesarWithKeyResponse } from '@enc-vis-wasm-mfe/shared-types';
+import { Encryptions, ICesarResponse, ICesarWithKeyResponse, JAVA_CESAR_URL } from '@enc-vis-wasm-mfe/shared-types';
 
 interface ICesarProps {
   algorithm: Encryptions;
@@ -31,7 +31,7 @@ export function Cesar({ algorithm, children }: ICesarProps) {
     } catch {}
 
     w.TeaVM.wasmGC
-      .load('assets/wasm/java_cesar/java_wasm_cesar/target/wasm-gc/classes.wasm')
+      .load(JAVA_CESAR_URL)
       .then((teavmWasm: any) => {
         teavm.current = teavmWasm;
       })
