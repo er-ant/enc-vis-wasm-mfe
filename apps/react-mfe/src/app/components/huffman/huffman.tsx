@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useForm, useStore } from '@tanstack/react-form';
+import { useForm } from '@tanstack/react-form';
 
 import { IHuffmanResult, GO_HUFFMAN_URL, TEXT_WITH_SPACES } from '@enc-vis-wasm-mfe/shared-types';
 
