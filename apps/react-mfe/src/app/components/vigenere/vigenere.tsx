@@ -18,6 +18,10 @@ export function Vigenere({ children }: IVigenereProps) {
     initGoWASM();
   }, []);
 
+  function getEncryptedWord(code: number): string {
+    return String.fromCharCode(code);
+  }
+
   function initGoWASM(): void {
     const go = new (window as any).Go();
 
@@ -25,7 +29,6 @@ export function Vigenere({ children }: IVigenereProps) {
       .instantiateStreaming(fetch('/assets/wasm/go_vigenere/vigenere_go.wasm'), go.importObject)
       .then(
         (result: any) => {
-          console.log(result);
           // functions from WASM are available after go.run()
           go.run(result.instance);
         }
@@ -76,7 +79,10 @@ export function Vigenere({ children }: IVigenereProps) {
                 <td>Step {index}</td>
                 <td>{ result.originalLetter.word }({ result.originalLetter.number })</td>
                 <td>{ result.keyLetter.word }({ result.keyLetter.number })</td>
-                <td>{ result.encryptedLetter.word }({ result.encryptedLetter.number })</td>
+                <td>
+                  {isByCodes ? getEncryptedWord(result.encryptedLetter.number) : result.encryptedLetter.word}
+                  ({result.encryptedLetter.number})
+                </td>
                 <td>{ result.encryptedText }</td>
               </tr>
             ))}

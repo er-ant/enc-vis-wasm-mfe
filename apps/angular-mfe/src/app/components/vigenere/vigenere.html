@@ -26,7 +26,7 @@
           <td>Step {{ $index }}</td>
           <td>{{ row.originalLetter.word }}({{ row.originalLetter.number }})</td>
           <td>{{ row.keyLetter.word }}({{ row.keyLetter.number }})</td>
-          <td>{{ row.encryptedLetter.word }}({{ row.encryptedLetter.number }})</td>
+          <td>{{ cardInputForm.isByCodes() ? getEncryptedWord(row.encryptedLetter.number) : row.encryptedLetter.word }}({{ row.encryptedLetter.number }})</td>
           <td>{{ row.encryptedText }}</td>
         </tr>
       }

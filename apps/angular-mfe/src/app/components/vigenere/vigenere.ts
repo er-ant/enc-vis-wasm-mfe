@@ -39,6 +39,10 @@ export class Vigenere {
     this.initGoWASM();
   }
 
+  getEncryptedWord(code: number): string {
+    return String.fromCharCode(code);
+  }
+
   onSubmit($event: Event): void {
     $event.preventDefault();
 
@@ -52,6 +56,8 @@ export class Vigenere {
       (window as any).vigenereEncryptWithCodes(this.cardInputForm.key().value(), this.cardInputForm.text().value()):
       (window as any).vigenereEncrypt(this.cardInputForm.key().value(), this.cardInputForm.text().value())
     );
+
+    console.log(this.vigenereResults());
   }
 
   private initGoWASM(): void {

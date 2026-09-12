@@ -8,7 +8,6 @@ import (
 	"syscall/js"
 )
 
-// toJSValue преобразует срез результатов в JS-массив.
 func toJSValue(results []VigenereResponse) js.Value {
 	arr := make([]interface{}, len(results))
 
@@ -22,7 +21,6 @@ func toJSValue(results []VigenereResponse) js.Value {
 	return js.ValueOf(arr)
 }
 
-// registerWasmExports регистрирует функции для вызова из JavaScript.
 func registerWasmExports() {
 	js.Global().Set("vigenereEncrypt", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 		if len(args) < 2 {

@@ -4,13 +4,11 @@ import (
 	"strings"
 )
 
-// VigenereLetter описывает букву и её позицию.
 type VigenereLetter struct {
 	Word   string `json:"word"`
 	Number int    `json:"number"`
 }
 
-// VigenereResponse описывает один шаг шифрования.
 type VigenereResponse struct {
 	OriginalLetter  VigenereLetter `json:"originalLetter"`
 	KeyLetter       VigenereLetter `json:"keyLetter"`
@@ -19,14 +17,12 @@ type VigenereResponse struct {
 	EncryptedBytes  []byte         `json:"encryptedBytes,omitempty"`
 }
 
-// englishAlphabet — алфавит по умолчанию.
 var englishAlphabet = []string{
 	"a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
 	"k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
 	"u", "v", "w", "x", "y", "z",
 }
 
-// getWordPosition возвращает позицию слова в алфавите.
 func getWordPosition(alphabet []string, word string) int {
 	word = strings.ToLower(word)
 
@@ -39,7 +35,6 @@ func getWordPosition(alphabet []string, word string) int {
 	return -1
 }
 
-// GetEncrypted возвращает пошаговый результат шифрования Виженера.
 func GetEncrypted(key, text string) []VigenereResponse {
 	alphabet := englishAlphabet
 	encryptedText := ""
@@ -110,7 +105,6 @@ func GetEncrypted(key, text string) []VigenereResponse {
 	return results
 }
 
-// GetEncryptedWithCodes возвращает пошаговый результат шифрования через коды символов.
 func GetEncryptedWithCodes(key, text string) []VigenereResponse {
 	alphabet := englishAlphabet
 	iterator := 0
@@ -164,7 +158,11 @@ func GetEncryptedWithCodes(key, text string) []VigenereResponse {
 			Word:   "",
 			Number: int(encryptedByte),
 		}
-		response.EncryptedText = string(encryptedBytes) + strings.Join(textArray[index+1:], "")
+		encryptedTextLatin1 := make([]rune, len(encryptedBytes))
+		for i, b := range encryptedBytes {
+			encryptedTextLatin1[i] = rune(b)
+		}
+		response.EncryptedText = string(encryptedTextLatin1) + strings.Join(textArray[index+1:], "")
 		response.EncryptedBytes = append([]byte(nil), encryptedBytes...)
 
 		iterator++
