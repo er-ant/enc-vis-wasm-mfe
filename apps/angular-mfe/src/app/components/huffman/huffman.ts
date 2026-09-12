@@ -1,10 +1,11 @@
-import { Component, input, signal } from '@angular/core';
-import { form, FormField, required, pattern, min, validate, submit } from '@angular/forms/signals';
+import { Component, signal } from '@angular/core';
+import { form, FormField, required, pattern, submit, disabled } from '@angular/forms/signals';
 
 import { IHuffmanResult, GO_HUFFMAN_URL, TEXT_WITH_SPACES } from '@enc-vis-wasm-mfe/shared-types';
 
 interface ICardInput {
   text: string;
+  result: string;
 }
 
 @Component({
@@ -22,14 +23,14 @@ export class Huffman {
 
   cardInputModel = signal<ICardInput>({
     text: '',
+    result: ''
   });
 
   cardInputForm = form(this.cardInputModel, (schemaPath) => {
     required(schemaPath.text);
     pattern(schemaPath.text, TEXT_WITH_SPACES);
+    disabled(schemaPath.result);
   });
-
-  result = '';
 
   constructor() {
     this.initGoWASM();
@@ -44,8 +45,9 @@ export class Huffman {
   }
 
   private encode(): void {
-    this.huffmanResults.set((window as any).huffmanEncrypt(this.cardInputForm.text().value()));
-    this.result = this.huffmanResults().result;
+    const wasmResult = (window as any).huffmanEncrypt(this.cardInputForm.text().value());
+    this.huffmanResults.set(wasmResult);
+    this.cardInputModel.update((value: ICardInput) => ({...value, result: wasmResult.result}));
   }
 
   private initGoWASM(): void {

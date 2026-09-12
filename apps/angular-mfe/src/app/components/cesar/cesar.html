@@ -11,7 +11,7 @@
       <input class="input w-full" placeholder="Input key" [formField]="cardInputForm.key" [class.input-error]="cardInputForm.key().dirty() && cardInputForm.key().invalid()"/>
     }
   }
-  <input class="input w-full" placeholder="Result" disabled [value]="result"/>
+  <input class="input w-full" placeholder="Result" [formField]="cardInputForm.result"/>
   <button class="btn btn-primary w-full" type="submit" [disabled]="cardInputForm().invalid()">Encode</button>
 </form>
 @if (algorithm() === encryptions.Cesar) {

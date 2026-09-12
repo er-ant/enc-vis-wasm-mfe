@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { form, FormField, required, pattern, submit } from '@angular/forms/signals';
+import { form, FormField, required, pattern, submit, disabled } from '@angular/forms/signals';
 
 import { IVigenereResponse, GO_VIGENERE_URL, TEXT_WITH_SPACES, KEY_NO_SPACES } from '@enc-vis-wasm-mfe/shared-types';
 
@@ -7,6 +7,7 @@ interface ICardInput {
   text: string;
   key: string;
   isByCodes: boolean;
+  result: string;
 }
 
 @Component({
@@ -25,7 +26,8 @@ export class Vigenere {
   cardInputModel = signal<ICardInput>({
     text: '',
     key: '',
-    isByCodes: false
+    isByCodes: false,
+    result: ''
   });
 
   cardInputForm = form(this.cardInputModel, (schemaPath) => {
@@ -33,6 +35,7 @@ export class Vigenere {
     pattern(schemaPath.text, TEXT_WITH_SPACES);
     required(schemaPath.key);
     pattern(schemaPath.key, KEY_NO_SPACES);
+    disabled(schemaPath.result);
   });
 
   constructor() {
@@ -52,10 +55,11 @@ export class Vigenere {
   }
 
   private encode(): void {
-    this.vigenereResults.set(this.cardInputForm.isByCodes().value() ?
+    const wasmResult = this.cardInputForm.isByCodes().value() ?
       (window as any).vigenereEncryptWithCodes(this.cardInputForm.key().value(), this.cardInputForm.text().value()):
-      (window as any).vigenereEncrypt(this.cardInputForm.key().value(), this.cardInputForm.text().value())
-    );
+      (window as any).vigenereEncrypt(this.cardInputForm.key().value(), this.cardInputForm.text().value());
+    this.vigenereResults.set(wasmResult);
+    this.cardInputModel.update((value: ICardInput) => ({...value, result: wasmResult[wasmResult.length - 1]?.encryptedText}));
   }
 
   private initGoWASM(): void {
