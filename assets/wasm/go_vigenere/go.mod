@@ -1,3 +1,3 @@
-module enc-vis-wasm-mfe
+module huffman
 
 go 1.26.4
