@@ -5,6 +5,8 @@ Idea of this project I got many years ago, but technologies (Microfrontend monor
 
 Architecture consists of Shell app made with Angular (best choice, provides routing, state with DI and many more by default) and microfrontends (Angular & React).
 
+![Result](https://github.com/er-ant/enc-vis-wasm-mfe/blob/master/assets/result.png)
+
 ## WASM
 [Check here for info](https://github.com/er-ant/enc-vis-wasm-mfe/blob/master/assets/wasm/README.md)
 
@@ -42,3 +44,8 @@ webpack.config.js
     type: 'module',
   },
 ```
+
+## Things could be done better here:
+1. More reusability between components (more webcomponents way instead of this MFE thing)
+2. Better implementation of algorithms
+3. GH-pages or another example
